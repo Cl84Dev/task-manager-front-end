@@ -4,6 +4,8 @@ import {
   Button,
   Input,
   Textarea,
+  Select,
+  SelectItem,
   Modal,
   ModalContent,
   ModalHeader,
@@ -15,7 +17,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import api from "@/api/api";
 
-export default function ModalAddProject({ isOpen, onOpenChange }) {
+export default function ModalAddTask({ isOpen, onOpenChange, projectId }) {
   const [isDisabled, setIsDisabled] = useState(false);
 
   return (
@@ -31,7 +33,7 @@ export default function ModalAddProject({ isOpen, onOpenChange }) {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <h2 className="text-xl font-bold text-blue-600">
-                Adicionar Projeto
+                Adicionar Tarefa
               </h2>
             </ModalHeader>
             <ModalBody>
@@ -39,19 +41,25 @@ export default function ModalAddProject({ isOpen, onOpenChange }) {
                 initialValues={{
                   title: "",
                   description: "",
+                  priority: "",
                 }}
                 validationSchema={Yup.object({
                   title: Yup.string().required("Campo obrigatório"),
                   description: Yup.string().required("Campo obrigatório"),
+                  priority: Yup.string().required("Campo obrigatório"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
                   setIsDisabled(true);
                   const payload = {
                     title: values.title,
                     description: values.description,
+                    priority: values.priority,
+                    status: "Adicionada",
+                    project_id: projectId,
                   };
+
                   api
-                    .post("/project", payload)
+                    .post("/task", payload)
                     .then((res) => {
                       toast.success(res.data.message);
                       setTimeout(() => {
@@ -87,13 +95,34 @@ export default function ModalAddProject({ isOpen, onOpenChange }) {
                     <Textarea
                       label="Descrição"
                       labelPlacement="inside"
-                      placeholder="Descreva o projeto"
+                      placeholder="Descreva a tarefa"
                       className="w-full"
                       {...formik.getFieldProps("description")}
                     />
                     {formik.touched.description && formik.errors.description ? (
                       <div className="text-red-500 text-xs font-bold mb-2">
                         {formik.errors.description}
+                      </div>
+                    ) : null}
+
+                    <Select
+                      label="Prioridade"
+                      placeholder="Selecione uma prioridade"
+                      {...formik.getFieldProps("priority")}
+                    >
+                      <SelectItem key="Baixa" value="Baixa">
+                        Baixa
+                      </SelectItem>
+                      <SelectItem key="Média" value="Média">
+                        Média
+                      </SelectItem>
+                      <SelectItem key="Alta" value="Alta">
+                        Alta
+                      </SelectItem>
+                    </Select>
+                    {formik.touched.priority && formik.errors.priority ? (
+                      <div className="text-red-500 text-xs font-bold mb-2">
+                        {formik.errors.priority}
                       </div>
                     ) : null}
 

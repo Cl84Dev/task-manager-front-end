@@ -30,6 +30,7 @@ export default function ModalEditProject({
       onOpenChange={onOpenChange}
       hideCloseButton
       placement="top-center"
+      className="p-3"
     >
       <ModalContent>
         {(onClose) => (
@@ -75,7 +76,7 @@ export default function ModalEditProject({
                 }}
               >
                 {(formik) => (
-                  <Form className="m-3 p-3 shadow-lg flex flex-col justify-center items-center gap-3 max-w-[400px] w-full rounded">
+                  <Form className="p-3 shadow-lg flex flex-col justify-center items-center gap-3 max-w-[400px] w-full rounded">
                     <Input
                       type="text"
                       label="Título"

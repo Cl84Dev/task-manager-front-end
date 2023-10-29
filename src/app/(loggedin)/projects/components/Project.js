@@ -1,11 +1,23 @@
 "use client";
-import { Button } from "@nextui-org/react";
+
+import { Button, Progress } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import api from "@/api/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Project({ id, title, description, date, openModal }) {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    api.get(`/tasks/${id}`).then((res) => {
+      const tasksAmount = res.data.length;
+      let concludedTasksAmount = res.data.filter(
+        (item) => item.status === "Concluída"
+      ).length;
+      setProgress(Math.round((concludedTasksAmount * 100) / tasksAmount));
+    });
+  }, []);
 
   function formatDate(date) {
     const formattedDate = new Date(date);
@@ -41,7 +53,8 @@ export default function Project({ id, title, description, date, openModal }) {
       </h2>
       <p className="mb-3">{description}</p>
       <span>Criado em: {formatDate(date)}</span>
-      <div className="my-3 flex flex-row justify-between w-full">
+      <Progress value={progress} className="my-3 w-full" />
+      <div className="mb-3 flex flex-row justify-between w-full">
         <Button
           color="primary"
           variant="bordered"

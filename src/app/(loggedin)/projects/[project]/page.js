@@ -76,29 +76,96 @@ export default function Page({ params }) {
         </div>
       )}
 
-      {tasks ? (
-        tasks.map((item) => (
-          <Task
-            key={item._id}
-            id={item._id}
-            title={item.title}
-            description={item.description}
-            status={item.status}
-            priority={item.priority}
-            date={item.date}
-            openModal={() =>
-              openModal("editTask", {
-                id: item._id,
-                title: item.title,
-                description: item.description,
-                status: item.status,
-                priority: item.priority,
-              })
-            }
-          />
-        ))
-      ) : (
-        <Spinner size="lg" className="my-5" />
+      {tasks && tasks.length > 0 && (
+        <div className="flex flex-col md:flex-row w-full justify-between gap-3">
+          <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-lg rounded">
+            <h2 className="text-2xl text-blue-600 font-bold">Adicionadas</h2>
+            {tasks ? (
+              tasks
+                .filter((item) => item.status === "Adicionada")
+                .map((item) => (
+                  <Task
+                    key={item._id}
+                    id={item._id}
+                    title={item.title}
+                    description={item.description}
+                    status={item.status}
+                    priority={item.priority}
+                    date={item.date}
+                    openModal={() =>
+                      openModal("editTask", {
+                        id: item._id,
+                        title: item.title,
+                        description: item.description,
+                        status: item.status,
+                        priority: item.priority,
+                      })
+                    }
+                  />
+                ))
+            ) : (
+              <Spinner size="lg" className="my-5" />
+            )}
+          </div>
+          <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-lg rounded">
+            <h2 className="text-2xl text-blue-600 font-bold">Em andamento</h2>
+            {tasks ? (
+              tasks
+                .filter((item) => item.status === "Em andamento")
+                .map((item) => (
+                  <Task
+                    key={item._id}
+                    id={item._id}
+                    title={item.title}
+                    description={item.description}
+                    status={item.status}
+                    priority={item.priority}
+                    date={item.date}
+                    openModal={() =>
+                      openModal("editTask", {
+                        id: item._id,
+                        title: item.title,
+                        description: item.description,
+                        status: item.status,
+                        priority: item.priority,
+                      })
+                    }
+                  />
+                ))
+            ) : (
+              <Spinner size="lg" className="my-5" />
+            )}
+          </div>
+          <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-md rounded">
+            <h2 className="text-2xl text-blue-600 font-bold">Concluídas</h2>
+            {tasks ? (
+              tasks
+                .filter((item) => item.status === "Concluída")
+                .map((item) => (
+                  <Task
+                    key={item._id}
+                    id={item._id}
+                    title={item.title}
+                    description={item.description}
+                    status={item.status}
+                    priority={item.priority}
+                    date={item.date}
+                    openModal={() =>
+                      openModal("editTask", {
+                        id: item._id,
+                        title: item.title,
+                        description: item.description,
+                        status: item.status,
+                        priority: item.priority,
+                      })
+                    }
+                  />
+                ))
+            ) : (
+              <Spinner size="lg" className="my-5" />
+            )}
+          </div>
+        </div>
       )}
 
       {modalRole === "addTask" ? (

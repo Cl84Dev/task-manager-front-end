@@ -1,8 +1,8 @@
 "use client";
-import { Button } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import api from "@/api/api";
-import { useState } from "react";
+import ConfirmDeleteTaskModal from "./ConfirmDeleteTaskModal";
 
 export default function Task({
   id,
@@ -13,7 +13,7 @@ export default function Task({
   date,
   openModal,
 }) {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   function formatDate(date) {
     const formattedDate = new Date(date);
@@ -24,24 +24,6 @@ export default function Task({
     return `${day}/${month}/${year}`;
   }
 
-  const deleteTask = () => {
-    setIsDisabled(true);
-    api
-      .delete(`/task/${id}`)
-      .then((res) => {
-        toast.success(res.data.message);
-
-        setTimeout(() => {
-          setIsDisabled(true);
-          location.reload();
-        }, 3000);
-      })
-      .catch((err) => {
-        setIsDisabled(true);
-        toast.error(err.response.data.error);
-        console.log(err);
-      });
-  };
   return (
     <div className="m-3 p-3 shadow-lg max-w-[400px] w-full rounded">
       <h2 className="my-3 text-xl font-bold text-blue-600">
@@ -70,12 +52,16 @@ export default function Task({
           type="submit"
           size="sm"
           className="font-bold mb-3 w-[110px]"
-          onClick={deleteTask}
-          isDisabled={isDisabled}
+          onClick={onOpen}
         >
           Apagar
         </Button>
       </div>
+      <ConfirmDeleteTaskModal
+        id={id}
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+      />
     </div>
   );
 }

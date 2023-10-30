@@ -17,9 +17,14 @@ export default function LoggedNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("logged");
   };
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-blue-600">
+    <Navbar
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      className="bg-blue-600"
+    >
       <NavbarContent justify="start">
         <NavbarBrand>
           <Link href="/">
@@ -53,7 +58,10 @@ export default function LoggedNavBar() {
         />
       </NavbarContent>
       <NavbarMenu className="bg-blue-600 text-white font-bold transition">
-        <NavbarMenuItem className="hover:text-blue-300 transition-colors">
+        <NavbarMenuItem
+          className="hover:text-blue-300 transition-colors"
+          onClick={() => setIsMenuOpen(false)}
+        >
           <Link color="foreground" href="/projects">
             Projetos
           </Link>

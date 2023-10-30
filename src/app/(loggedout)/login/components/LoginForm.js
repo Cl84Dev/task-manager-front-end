@@ -43,6 +43,7 @@ export default function LoginForm() {
           .then((res) => {
             toast.success(res.data.message);
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("logged", true);
             setTimeout(() => {
               location.replace("/projects");
             }, 3000);

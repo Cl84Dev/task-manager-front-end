@@ -1,13 +1,13 @@
 "use client";
 
-import { Button, Progress } from "@nextui-org/react";
-import { toast } from "react-toastify";
+import { Button, Progress, useDisclosure } from "@nextui-org/react";
 import api from "@/api/api";
 import { useEffect, useState } from "react";
+import ConfirmDeleteProjectModal from "./ConfirmDeleteProjectModal";
 
 export default function Project({ id, title, description, date, openModal }) {
-  const [isDisabled, setIsDisabled] = useState(true);
   const [progress, setProgress] = useState(0);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     api.get(`/tasks/${id}`).then((res) => {
@@ -28,24 +28,6 @@ export default function Project({ id, title, description, date, openModal }) {
     return `${day}/${month}/${year}`;
   }
 
-  const deleteProject = () => {
-    setIsDisabled(true);
-    api
-      .delete(`/project/${id}`)
-      .then((res) => {
-        toast.success(res.data.message);
-
-        setTimeout(() => {
-          setIsDisabled(true);
-          location.reload();
-        }, 3000);
-      })
-      .catch((err) => {
-        setIsDisabled(true);
-        toast.error(err.response.data.error);
-        console.log(err);
-      });
-  };
   return (
     <div className="m-3 p-3 shadow-lg max-w-[400px] w-full rounded">
       <h2 className="my-3 text-xl font-bold text-blue-600">
@@ -81,12 +63,16 @@ export default function Project({ id, title, description, date, openModal }) {
           type="submit"
           size="sm"
           className="font-bold mb-3 w-[110px]"
-          onClick={deleteProject}
-          isDisabled={isDisabled}
+          onClick={onOpen}
         >
           Apagar
         </Button>
       </div>
+      <ConfirmDeleteProjectModal
+        id={id}
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+      />
     </div>
   );
 }

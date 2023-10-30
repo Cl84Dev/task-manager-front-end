@@ -90,7 +90,9 @@ export default function Page({ params }) {
       {tasks && tasks.length > 0 && (
         <div className="flex flex-col md:flex-row w-full justify-between gap-3">
           <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-lg rounded">
-            <h2 className="text-2xl text-blue-600 font-bold">Adicionadas</h2>
+            <h2 className="text-2xl text-blue-600 font-bold z-10 p-3 shadow-sm bg-white rounded sticky top-[80px] md:p-0 md:shadow-none md:bg-transparent md:rounded-none md:static">
+              Adicionadas
+            </h2>
             {tasks ? (
               tasks
                 .filter((item) => item.status === "Adicionada")
@@ -119,7 +121,9 @@ export default function Page({ params }) {
             )}
           </div>
           <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-lg rounded">
-            <h2 className="text-2xl text-blue-600 font-bold">Em andamento</h2>
+            <h2 className="text-2xl text-blue-600 font-bold z-10 p-3 shadow-sm bg-white rounded sticky top-[80px] md:p-0 md:shadow-none md:bg-transparent md:rounded-none md:static">
+              Em andamento
+            </h2>
             {tasks ? (
               tasks
                 .filter((item) => item.status === "Em andamento")
@@ -148,7 +152,9 @@ export default function Page({ params }) {
             )}
           </div>
           <div className="p-3 flex flex-col items-center w-full md:w-1/3 shadow-md rounded">
-            <h2 className="text-2xl text-blue-600 font-bold">Concluídas</h2>
+            <h2 className="text-2xl text-blue-600 font-bold z-10 p-3 shadow-sm bg-white rounded sticky top-[80px] md:p-0 md:shadow-none md:bg-transparent md:rounded-none md:static">
+              Concluídas
+            </h2>
             {tasks ? (
               tasks
                 .filter((item) => item.status === "Concluída")

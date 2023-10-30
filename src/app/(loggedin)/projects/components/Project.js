@@ -7,15 +7,17 @@ import ConfirmDeleteProjectModal from "./ConfirmDeleteProjectModal";
 
 export default function Project({ id, title, description, date, openModal }) {
   const [progress, setProgress] = useState(0);
+  const [tasksAmount, setTasksAmount] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     api.get(`/tasks/${id}`).then((res) => {
-      const tasksAmount = res.data.length;
+      const amount = res.data.length;
       let concludedTasksAmount = res.data.filter(
         (item) => item.status === "Concluída"
       ).length;
-      setProgress(Math.round((concludedTasksAmount * 100) / tasksAmount));
+      setProgress(Math.round((concludedTasksAmount * 100) / amount));
+      setTasksAmount(amount);
     });
   }, []);
 
@@ -34,7 +36,10 @@ export default function Project({ id, title, description, date, openModal }) {
         {title.toUpperCase()}
       </h2>
       <p className="mb-3">{description}</p>
-      <span>Criado em: {formatDate(date)}</span>
+      <div className="flex flex-col">
+        <span>Criado em: {formatDate(date)}</span>
+        <span>Quantidade de tarefas: {tasksAmount}</span>
+      </div>
       <Progress value={progress} className="my-3 w-full" />
       <div className="mb-3 flex flex-row justify-between w-full">
         <Button
@@ -45,7 +50,7 @@ export default function Project({ id, title, description, date, openModal }) {
           className="font-bold mb-3 w-[110px]"
           onClick={() => location.replace(`/projects/${id}`)}
         >
-          Visualizar
+          Tarefas
         </Button>
         <Button
           color="success"

@@ -57,8 +57,8 @@ export default function Page({ params }) {
 
   return (
     <main className="m-3 flex flex-col justify-center items-center">
-      <h1 className="my-3 text-3xl font-bold text-blue-600">
-        {project && project.title}
+      <h1 className="my-3 text-3xl font-bold text-blue-600 text-center">
+        {project && `Projeto: ${project.title}`}
       </h1>
       <Button
         color="primary"

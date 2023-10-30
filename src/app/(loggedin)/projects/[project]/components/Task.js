@@ -27,7 +27,7 @@ export default function Task({
   const priorityBackgroundColor = (priority) => {
     switch (priority) {
       case "Média":
-        return "bg-yellow-100";
+        return "bg-yellow-50";
       case "Alta":
         return "bg-red-50";
       default:

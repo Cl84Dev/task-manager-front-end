@@ -60,15 +60,26 @@ export default function Page({ params }) {
       <h1 className="my-3 text-3xl font-bold text-blue-600 text-center">
         {project && `Projeto: ${project.title}`}
       </h1>
-      <Button
-        color="primary"
-        variant="solid"
-        type="submit"
-        className="font-bold mb-3"
-        onClick={() => openModal("addTask")}
-      >
-        Adicionar tarefa
-      </Button>
+      <div className="flex flex-row gap-3 mb-3">
+        <Button
+          color="primary"
+          variant="bordered"
+          type="submit"
+          className="font-bold mb-3"
+          onClick={() => location.replace("/projects")}
+        >
+          Voltar para projetos
+        </Button>
+        <Button
+          color="primary"
+          variant="solid"
+          type="submit"
+          className="font-bold mb-3 w-[175.63px]"
+          onClick={() => openModal("addTask")}
+        >
+          Adicionar tarefa
+        </Button>
+      </div>
 
       {tasks && tasks.length === 0 && (
         <div className="my-3">
